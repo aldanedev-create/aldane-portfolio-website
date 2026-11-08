@@ -1,4 +1,4 @@
-var FORM_ENDPOINT=""; // optional: paste a Formspree URL (https://formspree.io/f/xxxx) to send without opening a mail app
+var FORM_ENDPOINT="https://formspree.io/f/xoeezgnp"; // optional: paste a Formspree URL (https://formspree.io/f/xxxx) to send without opening a mail app
 var PAGES={home:"Aldane Hutchinson — Full Stack Engineer",work:"Work — Aldane Hutchinson",about:"About — Aldane Hutchinson",contact:"Contact — Aldane Hutchinson"};
 var FEATURED=[["Flaxon++","screen-terminal"],["MinifyJS","screen-compiler"],["Flaxon","screen-web"],["syro-Flow","screen-cms"],["EduCore","screen-education"],["CorePress CMS","screen-dashboard"],["RubyDB","screen-inventory"],["WebShield Scanner","screen-security"],["Sova","screen-sova"]];
 document.addEventListener("alpine:init",function(){
