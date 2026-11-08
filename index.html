@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aldane Hutchinson — Full Stack Engineer (Go, Python, TypeScript)</title>
+<meta name="description" content="Full stack engineer from Kingston, Jamaica. Go, Python, TypeScript, React and Next.js. 70+ open-source projects, CompTIA Security+.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="js/projects.js"></script>
+<script src="js/security-scene.js"></script>
+<script src="js/project-scenes.js"></script>
+<script src="js/app.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+</head>
+<body x-data="site">
+<canvas id="bg" aria-hidden="true"></canvas><div id="bar"></div>
+<header><div class="w"><nav aria-label="Primary">
+ <a class="brand" href="#/"><i>AH</i>Aldane Hutchinson</a>
+ <div class="links" :class="{open:open}"><a href="#/" :class="{act:route==='home'}">Home</a><a href="#/work" :class="{act:route==='work'}">Work</a><a href="#/about" :class="{act:route==='about'}">About</a><a href="#/contact" :class="{act:route==='contact'}">Contact</a></div>
+ <div><button class="ic" @click="toggle()" aria-label="Toggle theme" x-text="dark?'☀':'☾'"></button> <button class="ic menu" @click="open=!open" aria-label="Menu">☰</button></div>
+</nav></div></header>
+<main>
+
+<div x-show="route==='home'" class="page">
+<div class="w hero">
+ <div>
+  <p class="eb">Kingston, Jamaica · Open to remote roles</p>
+  <h1>I build <em>fast, secure</em> backends and the apps on top of them.</h1>
+  <div class="type" x-text="role"></div>
+  <p class="lede">Full stack engineer with 3 years of hands-on programming. I write backend services in Go and Python and frontends in React, Next.js and TypeScript. CompTIA Security+ certified.</p>
+  <div class="btns"><a class="b p" href="#/work">See my work</a><a class="b" href="#/about">About me</a><a class="b" href="#/contact">Contact</a></div>
+  <div class="stats">
+   <div class="st" x-data="count(70,'+')"><b x-text="n+suf"></b><span>public repos</span></div>
+   <div class="st" x-data="count(3,' yrs')"><b x-text="n+suf"></b><span>programming</span></div>
+   <div class="st" x-data="count(17,'')"><b x-text="n"></b><span>Flaxon plugins</span></div>
+   <div class="st"><b>Sec+</b><span>CompTIA 701</span></div>
+  </div>
+ </div>
+ <canvas class="shield" data-security-scene aria-hidden="true"></canvas>
+</div>
+<section><div class="w">
+ <h2 class="rv">Featured projects</h2><p class="sub rv">Interactive 3D previews. Click a card to open the repository.</p>
+ <div class="grid">
+  <template x-for="f in featured" :key="f.p[0]">
+   <a class="card rv" :href="url(f.p[4])" target="_blank" rel="noopener" @mousemove="spot($event)">
+    <canvas class="scene" data-project-scene :data-scene-type="f.scene" aria-hidden="true"></canvas>
+    <h3 x-text="f.p[0]"></h3><p x-text="f.p[2]"></p>
+    <div class="m"><span class="tag" :class="{go:f.p[1]==='Go'}" x-show="f.p[1]" x-text="f.p[1]"></span><span x-text="f.p[3]"></span></div>
+   </a>
+  </template>
+ </div>
+ <div class="btns"><a class="b" href="#/work">Browse all projects →</a></div>
+</div></section>
+<section><div class="w">
+ <h2 class="rv">Go in practice: Flaxon++</h2>
+ <p class="sub rv">A Go sidecar that takes public HTTP traffic and hands it to an unchanged Python app over a Unix domain socket.</p>
+ <div class="flow rv">
+  <div class="node"><b>Clients</b><span>HTTP requests</span></div><div class="arr"></div>
+  <div class="node g"><b>Go sidecar</b><span>accepts connections</span></div><div class="arr"></div>
+  <div class="node"><b>Unix socket</b><span>framed MessagePack</span></div><div class="arr"></div>
+  <div class="node"><b>Flaxon app</b><span>Python, ASGI</span></div>
+ </div>
+ <div class="pts rv">
+  <div><b>Custom binary protocol</b>Length-prefixed frames carrying a frame type, a connection ID and a MessagePack map.</div>
+  <div><b>Tested</b>Go tests (<code>go test ./...</code>) and Python protocol and ASGI tests.</div>
+  <div><b>Shipped</b>Published on PyPI as flaxon-plusplus, with a Linux production guide.</div>
+  <div><b>Go tooling</b>MinifyJS ships Go binaries as cross-platform wheels for Windows, Linux and macOS.</div>
+ </div>
+</div></section>
+</div>
+
+<div x-show="route==='work'" class="page" x-cloak><div class="w pad">
+ <h2>Work</h2><p class="sub">Everything from my GitHub and the Flaxon-Labs organization.</p>
+ <div class="tools"><input type="search" x-model="q" placeholder="Search projects, languages, tech…" aria-label="Search projects"></div>
+ <div class="tools"><template x-for="c in cats" :key="c"><button class="chip" :class="{on:cat===c}" @click="cat=c" x-text="c"></button></template></div>
+ <p class="sub" x-text="list.length+' project'+(list.length===1?'':'s')"></p>
+ <div class="grid">
+  <template x-for="p in list" :key="p[0]">
+   <a class="card" :href="url(p[4])" target="_blank" rel="noopener" @mousemove="spot($event)">
+    <h3 x-text="p[0]"></h3><p x-text="p[2]"></p>
+    <div class="m"><span class="tag" :class="{go:p[1]==='Go'}" x-show="p[1]" x-text="p[1]"></span><span x-text="p[3]"></span></div>
+   </a>
+  </template>
+ </div>
+</div></div>
+
+<div x-show="route==='about'" class="page" x-cloak><div class="w pad">
+ <h2>About me</h2>
+ <div class="ab">
+  <img src="img/aldane.jpg" alt="Aldane Hutchinson">
+  <div>
+   <p>I’m <b>Aldane Hutchinson</b>, a full stack engineer from Kingston, Jamaica. I’ve been programming for three years, and I like owning a feature from the first idea to a working release.</p>
+   <p>My strongest backend work is in <b>Go</b> and <b>Python</b>. I built Flaxon, an async Python framework with a plugin ecosystem, and Flaxon++, a Go sidecar for it. On the frontend I work with React, Next.js, TypeScript and Three.js.</p>
+   <p>I’m also <b>CompTIA Security+ certified</b> and I study Computer Networking and Security at UTech, so I think about authentication, validation and hardening while I build, not afterwards.</p>
+   <p>Outside of code: chess, open source, and following the markets.</p>
+   <div class="soc"><a class="b" href="https://github.com/aldanedev-create">GitHub</a><a class="b" href="https://www.linkedin.com/in/aldanehutchinson-b38256407">LinkedIn</a><a class="b p" href="#/contact">Get in touch</a></div>
+  </div>
+ </div>
+ <div class="two">
+  <div>
+   <h3 class="h">Journey</h3>
+   <div class="tl">
+    <div><small>2026</small><b>Open-source maintainer</b><p>Published Flaxon, Flaxon++ and MinifyJS on PyPI; built a Flaxon-Labs plugin ecosystem (OAuth, S3, PostgreSQL, Stripe, Sentry).</p></div>
+    <div><small>2025 – now</small><b>University of Technology, Jamaica</b><p>BSc. Computer Networking and Security, first-year coursework.</p></div>
+    <div><small>Summer 2025</small><b>Customer Service and Cyber Centre Assistant</b><p>Kingston Bookshop. Fixed hardware and software issues for customers and handled POS transactions.</p></div>
+    <div><small>2023 – 2025</small><b>Meadowbrook High School, Sixth Form</b><p>CAPE Units 1 and 2, B+ average: Pure Mathematics, Computer Science, Economics.</p></div>
+    <div><small>2023</small><b>Started programming</b><p>Self-taught, learning by building and publishing real projects.</p></div>
+   </div>
+  </div>
+  <div>
+   <h3 class="h">Technologies</h3>
+   <ul class="l"><li><b>Backend</b> · Go, Python (Django, DRF, Flask, FastAPI), Node.js</li><li><b>Frontend</b> · TypeScript, React, Next.js, Vue, Svelte, Three.js, Alpine.js</li><li><b>Data</b> · PostgreSQL, SQL, SQLAlchemy, MongoDB, Redis, S3-compatible storage</li><li><b>Auth and security</b> · OAuth 2.0, JWT, RBAC, 2FA, CSRF/XSS/SQLi prevention</li><li><b>DevOps</b> · Git, GitHub Actions, Docker, Nginx, Linux, Vercel, Render</li><li><b>Also</b> · Rust, C, Ruby, PHP</li></ul>
+   <h3 class="h">Certifications</h3>
+   <ul class="l"><li><b>CompTIA Security+ CE (701)</b></li><li>Cisco Introduction to Cybersecurity</li><li>Web Developer Certificate, Codingal</li><li>30+ Skillsoft credentials</li></ul>
+   <h3 class="h">Awards</h3>
+   <ul class="l"><li>Most Outstanding Student, CSEC Chemistry and Physics</li><li>Most Improved, St. Mary’s College</li><li>Excellence in Discipline</li></ul>
+  </div>
+ </div>
+</div></div>
+
+<div x-show="route==='contact'" class="page" x-cloak><div class="w pad">
+ <h2>Contact</h2><p class="sub">I’m open to remote full stack and backend roles. Send me a message and I’ll reply by email.</p>
+ <div class="two">
+  <form class="ct" @submit.prevent="send()">
+   <label>Name<input type="text" x-model="f.name" required autocomplete="name"></label>
+   <label>Email<input type="email" x-model="f.email" required autocomplete="email"></label>
+   <label>Message<textarea rows="6" x-model="f.msg" required></textarea></label>
+   <button class="b p" type="submit">Send message</button>
+   <div class="ok" role="status" x-text="sent"></div>
+  </form>
+  <div class="cards">
+   <button type="button" @click="copy()"><b>Email</b><small x-text="copied?'Copied to clipboard':'aldanehutchinson5@gmail.com (click to copy)'"></small></button>
+   <a href="tel:+18765636141"><b>Phone</b><small>876-563-6141</small></a>
+   <a href="https://www.linkedin.com/in/aldanehutchinson-b38256407"><b>LinkedIn</b><small>aldanehutchinson-b38256407</small></a>
+   <a href="https://github.com/aldanedev-create"><b>GitHub</b><small>github.com/aldanedev-create</small></a>
+   <a><b>Location</b><small>Kingston, Jamaica (UTC-5)</small></a>
+  </div>
+ </div>
+</div></div>
+
+</main>
+<footer><div class="w">© 2026 Aldane Hutchinson · Built with Three.js and Alpine.js</div></footer>
+</body>
+</html>
